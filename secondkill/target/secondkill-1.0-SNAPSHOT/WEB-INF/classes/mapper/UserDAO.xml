@@ -1,0 +1,41 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="secondkill.dao.UserDAO">
+    <!--目的:为dao接口方法提供sql语句配置
+    即针对dao接口中的方法编写我们的sql语句-->
+
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="userId">
+        INSERT INTO user(user_id, name, password)
+        VALUES (#{userId}, #{name}, #{password})
+    </insert>
+
+    <update id="update">
+        UPDATE user
+        SET name = #{name}
+        WHERE user_id = #{userId}
+    </update>
+
+    <select id="queryById" resultType="User">
+        SELECT *
+        FROM user
+        WHERE user_id = #{userId}
+    </select>
+
+    <select id="queryAll" resultType="User">
+        SELECT *
+        FROM user
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM user
+        WHERE id = #{userId}
+    </delete>
+
+    <select id="login" resultType="User">
+        SELECT *
+        FROM user
+        WHERE name = #{name} and password = #{password}
+    </select>
+
+</mapper>
