@@ -3,6 +3,7 @@ package secondkill.entity;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import secondkill.cache.Cacheable;
 
 import java.io.Serializable;
 
@@ -11,7 +12,7 @@ import java.io.Serializable;
  * @author sunxin08
  * @date 2017/6/7
  */
-public class User implements Serializable {
+public class User implements Serializable, Cacheable {
 
     private Long userId;
 

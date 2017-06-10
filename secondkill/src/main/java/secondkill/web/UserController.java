@@ -5,13 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import secondkill.UserUtils;
+import secondkill.biz.UserBiz;
 import secondkill.entity.User;
-import secondkill.service.UserService;
+import secondkill.biz.dto.UserInfo;
 import secondkill.web.protocol.CommonWebResponse;
 import secondkill.web.protocol.ResponseCode;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -24,7 +24,7 @@ public class UserController {
     private static final Logger logger = Logger.getLogger(UserController.class);
 
     @Autowired
-    private UserService userService;
+    private UserBiz userBiz;
 
     @RequestMapping(value = "/")
     public String home() {
@@ -41,49 +41,46 @@ public class UserController {
     public CommonWebResponse<Boolean> login(String name, String password, HttpSession session) {
         logger.info("login: [name:" + name + "], [password:" + password + "]");
         CommonWebResponse<Boolean> response = new CommonWebResponse<Boolean>();
-        User user = userService.login(name, password);
+
+        User user = userBiz.login(name, password);
         if (Objects.nonNull(user)){
             session.setAttribute(UserUtils.USER_AUTH_KEY, user);
             logger.info("login success: " + user);
             response.setData(true);
             response.setStatus(ResponseCode.WEB_STATUS_OK);
-            return response;
         } else {
             logger.info("login faild: [name:" + name + "], [password:" + password + "]");
             response.setStatus(ResponseCode.WEB_STATUS_FAILED);
             response.setData(false);
-            return response;
         }
+        return response;
     }
 
     @RequestMapping(value = "/register", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public boolean register(@RequestAttribute("name") String name,
-                            @RequestAttribute("password") String password,
-                            HttpSession session) {
+    public CommonWebResponse<Boolean> register(String name, String password, HttpSession session) {
         logger.info("register: [name:" + name + "], [password:" + password + "]");
-        User user = userService.register(name, password);
+        CommonWebResponse<Boolean> response = new CommonWebResponse<Boolean>();
+
+        User user = userBiz.register(name, password);
         if (Objects.nonNull(user)){
             session.setAttribute(UserUtils.USER_AUTH_KEY, user);
             logger.info("register success: [userId:" + user.getUserId() + "], [name:" + name + "], " +
                     "[password:" + password + "]");
-            return true;
+            response.setStatus(ResponseCode.WEB_STATUS_OK);
+            response.setData(true);
         } else {
             logger.info("register faild: [name:" + name + "], [password:" + password + "]");
-            return false;
+            response.setStatus(ResponseCode.WEB_STATUS_FAILED);
+            response.setData(false);
         }
+        return response;
     }
 
-    @RequestMapping(value = "/user")
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public List<User> getAllUser() {
-        return userService.getAllUser();
-    }
-
-    @RequestMapping(value = "/user/{id}")
-    @ResponseBody
-    public User getUser(@PathVariable("id") Long id) {
-        return userService.getUser(id);
+    public UserInfo getUser(@PathVariable("id") Long id) {
+        return userBiz.getUserInfo(id);
     }
 
 }

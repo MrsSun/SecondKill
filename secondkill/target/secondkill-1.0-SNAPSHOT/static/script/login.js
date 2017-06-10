@@ -58,7 +58,7 @@ $('#register-button').click(function(event) {
         type: 'POST',
         success : function(response) {
             if (200 == response.status) {
-                window.location.href('/');
+                window.location.href = '/';
             } else {
                 $('#register-error-lable').html('用户名或密码错误');
             }

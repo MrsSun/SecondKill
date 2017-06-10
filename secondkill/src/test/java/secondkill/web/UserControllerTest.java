@@ -8,13 +8,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 import secondkill.UserUtils;
-import secondkill.entity.User;
+import secondkill.biz.dto.UserInfo;
 
 import javax.servlet.http.HttpSession;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.List;
 
 /**
  * @author sunxin08
@@ -22,9 +18,8 @@ import java.util.List;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(value = "classpath:WEB-INF/applicationContext.xml")
+@ContextConfiguration(value = "classpath:/spring/spring-*.xml")
 public class UserControllerTest {
-
 
     @Autowired
     private UserController userController;
@@ -45,17 +40,10 @@ public class UserControllerTest {
         Assert.notNull(session.getAttribute(UserUtils.USER_AUTH_KEY), "login error");
     }
 
-    @Test
-    public void testGetAllUser() throws Exception {
-        List<User> users = userController.getAllUser();
-        for (User user : users) {
-            System.out.println(user);
-        }
-    }
 
     @Test
     public void testGetUser() throws Exception {
-        User user = userController.getUser(1000L);
+        UserInfo user = userController.getUser(1000L);
         System.out.println(user);
     }
 }

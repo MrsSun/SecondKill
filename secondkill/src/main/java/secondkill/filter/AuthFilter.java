@@ -2,13 +2,10 @@ package secondkill.filter;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 import secondkill.UserUtils;
 import secondkill.entity.User;
-import secondkill.service.UserService;
+import secondkill.biz.UserBiz;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -42,7 +39,7 @@ public class AuthFilter implements Filter {
     }
 
     @Autowired
-    private UserService userService;
+    private UserBiz userBiz;
 
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -72,12 +69,12 @@ public class AuthFilter implements Filter {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
-        if (Objects.isNull(userService)) {
-            logger.error("userService wired error: userService is null");
+        if (Objects.isNull(userBiz)) {
+            logger.error("userBiz wired error: userBiz is null");
             return;
         }
         // 身份验证
-        if (userService.validate(user)) {
+        if (userBiz.validate(user)) {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         } else {
