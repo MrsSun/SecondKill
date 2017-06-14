@@ -1,0 +1,56 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="secondkill.dao.GoodsDAO">
+    <!--目的:为dao接口方法提供sql语句配置
+    即针对dao接口中的方法编写我们的sql语句-->
+
+    <select id="queryAllGoods" resultType="Goods">
+        SELECT *
+        FROM goods
+        ORDER BY goods.start_time
+    </select>
+
+    <select id="queryAllActiveGoods" resultType="Goods">
+        SELECT *
+        FROM goods
+        WHERE
+        goods.start_time <![CDATA[ <= ]]> #{now}
+        AND
+        goods.end_time <![CDATA[ >= ]]> #{now}
+    </select>
+
+    <select id="queryGoodsById" resultType="Goods">
+        SELECT *
+        FROM goods
+        WHERE goods_id = #{goodsId}
+    </select>
+
+    <!--int reduce(Integer number);-->
+    <update id="reduceCAS">
+        UPDATE goods
+        SET surplus = surplus - #{number}
+        WHERE
+        goods_id=#{goodsId} AND
+        surplus >= #{number}
+    </update>
+
+    <!--int updateWithUuid(Goods goods);-->
+    <update id="updateWithUuid">
+        UPDATE goods
+        SET name = #{name},
+        status = #{status},
+        uuid = #{uuid}
+        WHERE
+        goods_id = #{goodsId} AND
+        status = 0
+    </update>
+    <!--int updateExceptUuid(Goods goods);-->
+    <update id="updateExceptUuid">
+        UPDATE goods
+        SET name = #{name},
+        status = #{status}
+        WHERE
+        goods_id = #{goodsId}
+    </update>
+</mapper>

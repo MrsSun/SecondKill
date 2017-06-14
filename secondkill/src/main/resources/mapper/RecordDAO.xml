@@ -1,0 +1,33 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="secondkill.dao.RecordDAO">
+
+    <!--List<Record> queryUserAllRecord(Long userId);-->
+    <select id="queryUserAllRecord" resultType="Record">
+        SELECT
+        record.record_id,
+        record.number,
+        record.create_time,
+        goods.goods_id "goods.goods_id",
+        goods.name "goods.name",
+        goods.total "goods.total",
+        goods.start_time "goods.start_time",
+        goods.end_time "goods.end_time",
+        goods.create_time "goods.create_time",
+        user.user_id "user.user_id",
+        user.name "user.name"
+        FROM record
+        INNER JOIN goods ON record.goods_id = goods.goods_id
+        INNER JOIN user ON record.user_id = user.user_id
+        WHERE record.user_id = #{userId}
+    </select>
+
+    <!--int addRecord(Record record);-->
+
+    <insert id="addRecord">
+        INSERT INTO record(user_id, goods_id, number)
+        VALUES (#{user.userId}, #{goods.goodsId}, #{number})
+    </insert>
+
+</mapper>

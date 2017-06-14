@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>登录</title>
+</head>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link class="bootstrap library" rel="stylesheet" type="text/css"
+      href="http://sandbox.runjs.cn/js/sandbox/bootstrap-2.2.0/css/bootstrap.min.css">
+    <script class="bootstrap library" src="http://sandbox.runjs.cn/js/sandbox/jquery/jquery-1.7.2.min.js"
+        type="text/javascript"></script>
+    <script class="bootstrap library" src="http://sandbox.runjs.cn/js/sandbox/bootstrap-2.2.0/js/bootstrap.min.js"
+        type="text/javascript"></script>
+    <link rel="stylesheet" href="/static/style/login.css">
+</head>
+<body>
+<div class="container">
+    <section class="loginBox row-fluid">
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a id="login" href="#" data-toggle="tab">登录</a>
+                </li>
+                <li>
+                    <a id="register" href="#" data-toggle="tab">注册</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="login-panel">
+                    <div><input type="text" name="username" placeholder="用户名"/></div>
+                    <div>
+                        <input type="password" name="password" placeholder="密码"/>
+                    </div>
+                    <div class="span6">
+                        <label id="login-error-lable"></label>
+                    </div>
+                    <div class="span1"><input id="login-button" type="button" value=" 登录 " class="btn btn-primary"></div>
+                </div>
+                <div class="tab-pane" id="register-panel">
+                    <div><input type="text" name="username" placeholder="用户名"/></div>
+                    <div>
+                        <input type="password" name="password" placeholder="密码"/>
+                    </div>
+                    <div>
+                        <input type="password" name="confirmpw" placeholder="确认密码"/>
+                    </div>
+                    <div class="span6">
+                        <label id="register-error-lable"></label>
+                    </div>
+                    <div class="span1"><input id="register-button" type="button" value=" 注册 " class="btn btn-primary"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script src="/static/script/login.js"></script>
+</body>
+</html>
